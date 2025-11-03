@@ -1,0 +1,7 @@
+node_modules/
+*.log
+.env
+data/*.db
+nohup.out
+.DS_Store
+
