@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-const dbPath = path.join(__dirname, '../data/bookings.db');
+const dbPath = '/tmp/bookings.db';
 const db = new sqlite3.Database(dbPath);
 
 db.serialize(() => {
