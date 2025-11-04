@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Union Conference 2025 Booking System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin-styles.css">
+    <script src="auth-check.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>PHC Corporation - Admin Dashboard</h1>
+                    <p class="tagline">Union Conference 2025 Booking Management</p>
+                </div>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Public Booking Page</a>
+                    <a href="#" class="nav-link active">Admin Dashboard</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalBookings">0</div>
+                        <div class="stat-label">Total Bookings</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✓</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="confirmedBookings">0</div>
+                        <div class="stat-label">Confirmed</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✗</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="cancelledBookings">0</div>
+                        <div class="stat-label">Cancelled</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="daysWithBookings">0</div>
+                        <div class="stat-label">Days with Bookings</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Actions -->
+            <div class="controls-section">
+                <div class="filters">
+                    <select id="dateFilter" class="filter-select">
+                        <option value="">All Dates</option>
+                        <option value="2025-11-18">Tuesday, November 18</option>
+                        <option value="2025-11-19">Wednesday, November 19</option>
+                        <option value="2025-11-20">Thursday, November 20</option>
+                        <option value="2025-11-21">Friday, November 21</option>
+                    </select>
+                    
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                    
+                    <button class="btn-secondary" onclick="refreshBookings()">
+                        <span>🔄</span>
+                        <span>Refresh</span>
+                    </button>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn-primary" onclick="exportBookings()">
+                        <span>📥</span>
+                        <span>Export to CSV</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bookings Table -->
+            <div class="table-section">
+                <h3 class="section-title">All Bookings</h3>
+                
+                <div class="table-container">
+                    <div class="loading" id="tableLoading">Loading bookings...</div>
+                    
+                    <table class="bookings-table" id="bookingsTable" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Attendee</th>
+                                <th>Organization</th>
+                                <th>Email</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Duration</th>
+                                <th>Topic</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTableBody">
+                            <!-- Bookings will be inserted here -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="no-bookings" id="noBookings" style="display: none;">
+                        <p>No bookings found.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar View -->
+            <div class="calendar-section">
+                <h3 class="section-title">Calendar View</h3>
+                
+                <div class="calendar-grid">
+                    <div class="calendar-day" data-date="2025-11-18">
+                        <div class="calendar-day-header">
+                            <div class="calendar-day-name">Tuesday</div>
+                            <div class="calendar-day-number">18</div>
+                            <div class="calendar-day-month">November</div>
+                        </div>
+                        <div class="calendar-day-bookings" id="bookings-2025-11-18">
+                            <div class="calendar-loading">Loading...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-day" data-date="2025-11-19">
+                        <div class="calendar-day-header">
+                            <div class="calendar-day-name">Wednesday</div>
+                            <div class="calendar-day-number">19</div>
+                            <div class="calendar-day-month">November</div>
+                        </div>
+                        <div class="calendar-day-bookings" id="bookings-2025-11-19">
+                            <div class="calendar-loading">Loading...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-day" data-date="2025-11-20">
+                        <div class="calendar-day-header">
+                            <div class="calendar-day-name">Thursday</div>
+                            <div class="calendar-day-number">20</div>
+                            <div class="calendar-day-month">November</div>
+                        </div>
+                        <div class="calendar-day-bookings" id="bookings-2025-11-20">
+                            <div class="calendar-loading">Loading...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-day" data-date="2025-11-21">
+                        <div class="calendar-day-header">
+                            <div class="calendar-day-name">Friday</div>
+                            <div class="calendar-day-number">21</div>
+                            <div class="calendar-day-month">November</div>
+                        </div>
+                        <div class="calendar-day-bookings" id="bookings-2025-11-21">
+                            <div class="calendar-loading">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Details Modal -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Booking Details</h3>
+                <button class="close-btn" onclick="closeDetailsModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="bookingDetails">
+                <!-- Details will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeDetailsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 PHC Corporation. All rights reserved. | Admin Dashboard</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>
+

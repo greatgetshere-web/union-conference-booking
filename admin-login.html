@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Union Conference 2025</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--medium-gray) 100%);
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h1 {
+            color: var(--primary-blue);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .login-form {
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: var(--coral);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-login:hover:not(:disabled) {
+            background: #FF5252;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+        
+        .btn-login:disabled {
+            background: var(--medium-gray);
+            cursor: not-allowed;
+        }
+        
+        .error-message {
+            background: #F8D7DA;
+            color: #721C24;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .success-message {
+            background: #D4EDDA;
+            color: #155724;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .authorized-users {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--medium-gray);
+        }
+        
+        .authorized-users h3 {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        
+        .authorized-users ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .authorized-users li {
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 4px 0;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1>Admin Dashboard</h1>
+                <p>Union Conference 2025 - PHC Corporation</p>
+            </div>
+            
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        placeholder="your.email@phchd.com"
+                        autocomplete="email"
+                    >
+                </div>
+                
+                <button type="submit" class="btn-login" id="loginBtn">
+                    Access Admin Dashboard
+                </button>
+            </form>
+            
+
+            
+            <div class="back-link">
+                <a href="index.html">← Back to Public Booking Page</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const AUTHORIZED_EMAILS = [
+            'yassir.shuaib@eu.phchd.com',
+            'maria.salazardecastro@eu.phchd.com',
+            'atsushi.yanagida@phchd.com',
+            'wenji.yuan@phchd.com',
+            'naofumi.yoda@phchd.com'
+        ];
+        
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        
+        // Check if already logged in
+        const loggedInEmail = localStorage.getItem('admin_email');
+        if (loggedInEmail && AUTHORIZED_EMAILS.includes(loggedInEmail.toLowerCase())) {
+            window.location.href = 'admin.html';
+        }
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim().toLowerCase();
+            
+            // Hide previous messages
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+            
+            // Check if email is authorized
+            if (AUTHORIZED_EMAILS.includes(email)) {
+                // Store in localStorage (simple auth for demo)
+                localStorage.setItem('admin_email', email);
+                localStorage.setItem('admin_login_time', new Date().toISOString());
+                
+                // Show success message
+                successMessage.textContent = 'Access granted! Redirecting to admin dashboard...';
+                successMessage.classList.add('show');
+                
+                // Redirect to admin dashboard
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1000);
+            } else {
+                // Show error message
+                errorMessage.textContent = 'Access denied. This email is not authorized to access the admin dashboard. Please contact Dr. Yassir Shuaib if you need access.';
+                errorMessage.classList.add('show');
+                emailInput.value = '';
+                emailInput.focus();
+            }
+        });
+    </script>
+</body>
+</html>
+

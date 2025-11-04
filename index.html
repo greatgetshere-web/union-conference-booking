@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Union Conference 2025 - Meeting Booking | PHC Corporation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>PHC Corporation</h1>
+                    <p class="tagline">Union Conference 2025 | Copenhagen</p>
+                </div>
+                <nav class="nav">
+                    <a href="#book" class="nav-link active">Book Meeting</a>
+                    <a href="admin-login.html" class="nav-link">Admin Dashboard</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title">Schedule Your Meeting at Union Conference 2025</h2>
+                <p class="hero-subtitle">Join us at our booth to discuss PATHFAST TB-LAM technology</p>
+                <div class="hero-highlights">
+                    <div class="highlight-item">
+                        <span class="highlight-icon">📅</span>
+                        <span>November 18-21, 2025</span>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">📍</span>
+                        <span>Copenhagen, Denmark</span>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">🎯</span>
+                        <span>6 Posters & Presentations</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking-section" id="book">
+        <div class="container">
+            <div class="booking-grid">
+                <!-- Calendar Section -->
+                <div class="calendar-section">
+                    <h3 class="section-title">Select Date & Time</h3>
+                    
+                    <!-- Date Selector -->
+                    <div class="date-selector">
+                        <button class="date-btn" data-date="2025-11-18">
+                            <span class="date-day">Tuesday</span>
+                            <span class="date-number">18</span>
+                            <span class="date-month">November</span>
+                        </button>
+                        <button class="date-btn" data-date="2025-11-19">
+                            <span class="date-day">Wednesday</span>
+                            <span class="date-number">19</span>
+                            <span class="date-month">November</span>
+                        </button>
+                        <button class="date-btn" data-date="2025-11-20">
+                            <span class="date-day">Thursday</span>
+                            <span class="date-number">20</span>
+                            <span class="date-month">November</span>
+                        </button>
+                        <button class="date-btn" data-date="2025-11-21">
+                            <span class="date-day">Friday</span>
+                            <span class="date-number">21</span>
+                            <span class="date-month">November</span>
+                        </button>
+                    </div>
+
+                    <!-- Time Slots -->
+                    <div class="time-slots-container">
+                        <div class="loading" id="loading">Loading available time slots...</div>
+                        <div class="time-slots" id="timeSlots"></div>
+                    </div>
+                </div>
+
+                <!-- Booking Form -->
+                <div class="form-section">
+                    <h3 class="section-title">Your Information</h3>
+                    
+                    <form id="bookingForm" class="booking-form">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="Dr. John Smith">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required placeholder="john.smith@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="organization">Organization</label>
+                            <input type="text" id="organization" name="organization" placeholder="University Hospital">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+1 234 567 8900">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duration">Meeting Duration *</label>
+                            <select id="duration" name="duration" required>
+                                <option value="">Select duration</option>
+                                <option value="15">15 minutes - Quick catch-up</option>
+                                <option value="30" selected>30 minutes - Standard meeting</option>
+                                <option value="45">45 minutes - In-depth discussion</option>
+                                <option value="60">60 minutes - Comprehensive presentation</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="topic">Meeting Topic</label>
+                            <textarea id="topic" name="topic" rows="3" placeholder="What would you like to discuss? (e.g., PATHFAST TB-LAM technology, clinical applications, partnership opportunities)"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="requests">Special Requests</label>
+                            <textarea id="requests" name="requests" rows="2" placeholder="Any special requirements or additional information"></textarea>
+                        </div>
+
+                        <div class="selected-slot-info" id="selectedSlotInfo" style="display: none;">
+                            <div class="info-icon">ℹ️</div>
+                            <div>
+                                <strong>Selected Time Slot:</strong>
+                                <p id="selectedSlotText"></p>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="submitBtn" disabled>
+                            <span class="btn-icon">📅</span>
+                            <span>Confirm Booking</span>
+                        </button>
+
+                        <p class="form-note">* Required fields. You will receive a confirmation email with calendar invitation.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-header success">
+                <span class="modal-icon">✓</span>
+                <h3>Booking Confirmed!</h3>
+            </div>
+            <div class="modal-body">
+                <p>Thank you for scheduling a meeting with PHC Corporation at Union Conference 2025.</p>
+                
+                <div class="confirmation-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Reference Number:</span>
+                        <span class="detail-value" id="refNumber"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Date:</span>
+                        <span class="detail-value" id="confDate"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Time:</span>
+                        <span class="detail-value" id="confTime"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Duration:</span>
+                        <span class="detail-value" id="confDuration"></span>
+                    </div>
+                </div>
+
+                <div class="confirmation-note">
+                    <p>📧 A confirmation email with calendar invitation has been sent to your email address.</p>
+                    <p>📍 We look forward to meeting you at our booth in Copenhagen!</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Close</button>
+                <button class="btn-primary" onclick="window.print()">Print Confirmation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>PHC Corporation</h4>
+                    <p>Leading innovation in TB diagnostics</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: yassir.shuaib@eu.phchd.com</p>
+                    <p>Union Conference 2025, Copenhagen</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Conference Highlights</h4>
+                    <p>6 PATHFAST TB-LAM Posters</p>
+                    <p>Live Technology Demonstrations</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PHC Corporation. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
