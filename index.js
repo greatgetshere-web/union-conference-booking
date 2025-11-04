@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Database connection
-const dbPath = path.join(__dirname, '../data/bookings.db');
+const dbPath = '/tmp/bookings.db';
 const db = new sqlite3.Database(dbPath);
 
 // Email configuration (to be configured with actual SMTP settings)
